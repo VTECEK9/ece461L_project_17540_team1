@@ -1,0 +1,15 @@
+{
+  "name": "ece461l_project_17540_team1-main",
+  "version": "1.0.0",
+  "description": "Template for MIS385N (Advanced Programming and App Development) Team Project # Project Overview",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "react-scripts start"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "react-scripts": "^3.0.1"
+  }
+}
