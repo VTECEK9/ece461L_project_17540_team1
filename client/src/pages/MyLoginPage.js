@@ -1,5 +1,5 @@
 import React from 'react';
-import './MyLoginPage.css'
+import './MyLoginPage.css';
 
 
 const MyLoginPage = () => {

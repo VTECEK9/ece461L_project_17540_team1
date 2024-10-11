@@ -1,2 +1,49 @@
 
+button{
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    padding: 10px;
+    background-color: #5cacba;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
 
+button:hover{
+    background-color: #315a61;
+}
+
+.create-project h2{
+    color: white;
+}
+
+.project-details h2 {
+    text-align: center;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.new-project{
+    margin-bottom: 15px;
+}
+
+.new-project label{
+    color: white;
+    margin-bottom: 5px;
+    display: block;
+}
+
+
+.new-project input{
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    padding: 8px;
+    outline: none;
+}
+
+.new-project input:focus{
+    border: 2px solid #ffffff;
+}
