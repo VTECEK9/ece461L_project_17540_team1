@@ -1,5 +1,5 @@
 // sign up page
-import React from 'react';
+import React, {useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../App.css';
 
@@ -33,13 +33,11 @@ const MyRegistrationPage = () => {
                 body: JSON.stringify(payload),
             });
 
-
             const data = await response.json();
 
             // Handle the response from the backend (success or failure)
             if (data.status === 'success') {
                 alert('Account created successfully');
-                // Optionally, redirect the user to the login page or another route
             } else {
                 alert('Error creating account: ' + data.message);
             }
@@ -51,6 +49,9 @@ const MyRegistrationPage = () => {
 
     return (
         <div className="account-creation">
+            <div className = "new-account">
+                <p><Link to = "/">Back to homepage</Link></p>
+            </div>
             <h2>Sign Up for an Account</h2>
             <form onSubmit={handleSubmit}>
                 <div className="new-account">

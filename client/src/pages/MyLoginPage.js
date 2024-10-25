@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import './MyLoginPage.css';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const MyLoginPage = () => {
     // State to store the username and password
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     // Function to handle form submission
     const handleSubmit = async (event) => {
@@ -19,7 +21,7 @@ const MyLoginPage = () => {
 
         try {
             // Send a POST request to your backend API
-            const response = await fetch('/login', {
+            const response = await fetch('http://localhost:5000/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -32,7 +34,7 @@ const MyLoginPage = () => {
             // Handle the response from the backend (success or failure)
             if (data.status === 'success') {
                 alert('Login successful');
-                // Redirect user or take another action
+                navigate("/projectpage")
             } else {
                 alert('Invalid username or password');
             }
@@ -75,9 +77,9 @@ const MyLoginPage = () => {
                 <div className="bottom">
                     <p>Don't have an account? <Link to="/signuppage">Sign up</Link></p>
                 </div>
-            </div>
-            <div className = "bottom">
-                <p><Link to = "/passwordpage">Forgot your password? </Link></p>
+                <div className = "bottom">
+                    <p><Link to = "/passwordpage">Forgot your password? </Link></p>
+                </div>
             </div>
         </div>
     );

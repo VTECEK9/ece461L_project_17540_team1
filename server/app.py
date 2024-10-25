@@ -4,10 +4,6 @@ from flask import Flask, request, jsonify
 from pymongo.mongo_client import MongoClient
 from flask_cors import CORS
 import os
-from dotenv import load_dotenv
-
-# Load environment variables from .env file (optional if you're not using it)
-load_dotenv()
 
 # Define the MongoDB connection string
 uri = "mongodb+srv://shivanshmadan:fsha4TPS9mOeogmG@users.8d1mt.mongodb.net/?retryWrites=true&w=majority&appName=Users"
@@ -37,6 +33,7 @@ def login():
     # Connect to the 'user_management' database and 'users' collection
     db = client['user_management']
     users_collection = db['users']
+    print(users_collection)
 
     # Attempt to log in the user
     user = users_collection.find_one({'username': username})
