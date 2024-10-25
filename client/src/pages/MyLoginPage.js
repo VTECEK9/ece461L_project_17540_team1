@@ -26,6 +26,9 @@ const MyLoginPage = () => {
             <div className = "bottom">
                 <p>Don't have an account? <Link to = "/signuppage">Sign up</Link></p>
             </div>
+            <div className = "bottom">
+                <p><Link to = "/passwordpage">Forgot your password? </Link></p>
+            </div>
            </div>
         </div>
  
