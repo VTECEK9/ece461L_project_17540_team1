@@ -1,198 +1,95 @@
 # Import necessary libraries and modules
 from bson.objectid import ObjectId
 from flask import Flask, request, jsonify
-from pymongo import MongoClient
+from pymongo.mongo_client import MongoClient
+from flask_cors import CORS
+import os
+from dotenv import load_dotenv
 
-# Import custom modules for database interactions
-import usersDB
-import projectsDB
-import hardwareDB
+# Load environment variables from .env file (optional if you're not using it)
+load_dotenv()
 
 # Define the MongoDB connection string
-MONGODB_SERVER = "your_mongodb_connection_string_here"
+uri = "mongodb+srv://shivanshmadan:fsha4TPS9mOeogmG@users.8d1mt.mongodb.net/?retryWrites=true&w=majority&appName=Users"
+
+# Initialize the MongoDB client and connect to the server
+client = MongoClient(uri)
+
+# Confirm a successful connection
+try:
+    client.admin.command('ping')
+    print("Pinged your deployment. You successfully connected to MongoDB!")
+except Exception as e:
+    print(f"Connection failed: {e}")
 
 # Initialize a new Flask web application
 app = Flask(__name__)
+CORS(app)
 
 # Route for user login
 @app.route('/login', methods=['POST'])
 def login():
     # Extract data from request
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
 
-    # Connect to MongoDB
+    # Connect to the 'user_management' database and 'users' collection
+    db = client['user_management']
+    users_collection = db['users']
 
-    # Attempt to log in the user using the usersDB module
+    # Attempt to log in the user
+    user = users_collection.find_one({'username': username})
 
-    # Close the MongoDB connection
-
-    # Return a JSON response
-    return jsonify({})
-
-# Route for the main page (Work in progress)
-@app.route('/main')
-def mainPage():
-    # Extract data from request
-
-    # Connect to MongoDB
-
-    # Fetch user projects using the usersDB module
-
-    # Close the MongoDB connection
+    if user and user['password'] == password:
+        response = {"message": "Login successful", "status": "success"}
+    else:
+        response = {"message": "Invalid username or password", "status": "error"}
 
     # Return a JSON response
-    return jsonify({})
-
-# Route for joining a project
-@app.route('/join_project', methods=['POST'])
-def join_project():
-    # Extract data from request
-
-    # Connect to MongoDB
-
-    # Attempt to join the project using the usersDB module
-
-    # Close the MongoDB connection
-
-    # Return a JSON response
-    return jsonify({})
+    return jsonify(response)
 
 # Route for adding a new user
 @app.route('/add_user', methods=['POST'])
 def add_user():
     # Extract data from request
+    data = request.get_json()
+    firstName = data.get('firstname')
+    lastName = data.get('lastname')
+    username = data.get('username')
+    userId = data.get('userId')
+    password = data.get('password')
 
-    # Connect to MongoDB
+    # Connect to the 'user_management' database and 'users' collection
+    db = client['user_management']
+    users_collection = db['users']
 
-    # Attempt to add the user using the usersDB module
-
-    # Close the MongoDB connection
+    # Check if the user already exists
+    if users_collection.find_one({'userId': userId}):
+        response = {"message": "User with this ID already exists.", "status": "error"}
+    else:
+        # Create a new user entry
+        user = {
+            'FirstName' : firstName,
+            'LastName' : lastName,
+            'username': username,
+            'userId': userId,
+            'password': password,
+            'projects': []
+        }
+        # Insert the new user into the users collection
+        users_collection.insert_one(user)
+        response = {"message": "User added successfully.", "status": "success"}
 
     # Return a JSON response
-    return jsonify({})
+    return jsonify(response)
 
 # Route for getting the list of user projects
 @app.route('/get_user_projects_list', methods=['POST'])
 def get_user_projects_list():
-    # Extract data from request
 
-    # Connect to MongoDB
-
-    # Fetch the user's projects using the usersDB module
-
-    # Close the MongoDB connection
-
-    # Return a JSON response
-    return jsonify({})
-
-# Route for creating a new project
-@app.route('/create_project', methods=['POST'])
-def create_project():
-    # Extract data from request
-
-    # Connect to MongoDB
-
-    # Attempt to create the project using the projectsDB module
-
-    # Close the MongoDB connection
-
-    # Return a JSON response
-    return jsonify({})
-
-# Route for getting project information
-@app.route('/get_project_info', methods=['POST'])
-def get_project_info():
-    # Extract data from request
-
-    # Connect to MongoDB
-
-    # Fetch project information using the projectsDB module
-
-    # Close the MongoDB connection
-
-    # Return a JSON response
-    return jsonify({})
-
-# Route for getting all hardware names
-@app.route('/get_all_hw_names', methods=['POST'])
-def get_all_hw_names():
-    # Connect to MongoDB
-
-    # Fetch all hardware names using the hardwareDB module
-
-    # Close the MongoDB connection
-
-    # Return a JSON response
-    return jsonify({})
-
-# Route for getting hardware information
-@app.route('/get_hw_info', methods=['POST'])
-def get_hw_info():
-    # Extract data from request
-
-    # Connect to MongoDB
-
-    # Fetch hardware set information using the hardwareDB module
-
-    # Close the MongoDB connection
-
-    # Return a JSON response
-    return jsonify({})
-
-# Route for checking out hardware
-@app.route('/check_out', methods=['POST'])
-def check_out():
-    # Extract data from request
-
-    # Connect to MongoDB
-
-    # Attempt to check out the hardware using the projectsDB module
-
-    # Close the MongoDB connection
-
-    # Return a JSON response
-    return jsonify({})
-
-# Route for checking in hardware
-@app.route('/check_in', methods=['POST'])
-def check_in():
-    # Extract data from request
-
-    # Connect to MongoDB
-
-    # Attempt to check in the hardware using the projectsDB module
-
-    # Close the MongoDB connection
-
-    # Return a JSON response
-    return jsonify({})
-
-# Route for creating a new hardware set
-@app.route('/create_hardware_set', methods=['POST'])
-def create_hardware_set():
-    # Extract data from request
-
-    # Connect to MongoDB
-
-    # Attempt to create the hardware set using the hardwareDB module
-
-    # Close the MongoDB connection
-
-    # Return a JSON response
-    return jsonify({})
-
-# Route for checking the inventory of projects
-@app.route('/api/inventory', methods=['GET'])
-def check_inventory():
-    # Connect to MongoDB
-
-    # Fetch all projects from the HardwareCheckout.Projects collection
-
-    # Close the MongoDB connection
-
-    # Return a JSON response
-    return jsonify({})
+    return 42
 
 # Main entry point for the application
 if __name__ == '__main__':
-    app.run()
-
+    app.run(debug=True)
