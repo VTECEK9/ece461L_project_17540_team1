@@ -47,3 +47,44 @@ button:hover{
 .new-project input:focus{
     border: 2px solid #ffffff;
 }
+
+
+.account-creation h2{
+    color:white;
+}
+
+.account-creation {
+    background: linear-gradient(135deg, #90cbd5, #afdfc5);
+    width: 100%;
+    max-width: 400px;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+}
+
+
+.new-account{
+    margin-bottom: 15px;
+}
+
+.new-account label{
+    color: white;
+    margin-bottom: 5px;
+    display: block;
+}
+
+
+.new-account input{
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    padding: 8px;
+    outline: none;
+}
+
+.new-account input:focus{
+    border: 2px solid #ffffff;
+}
+
+
