@@ -1,5 +1,6 @@
 import React from 'react';
 import './MyLoginPage.css';
+import {Link} from 'react-router-dom';
 
 
 const MyLoginPage = () => {
@@ -23,7 +24,7 @@ const MyLoginPage = () => {
                 <button type = "submit">Login</button>
             </form>
             <div className = "bottom">
-                <p>Don't have an account? <a href = "#" >Sign up</a></p>
+                <p>Don't have an account? <Link to = "/signuppage">Sign up</Link></p>
             </div>
            </div>
         </div>
