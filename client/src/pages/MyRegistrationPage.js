@@ -1,10 +1,6 @@
-<<<<<<< HEAD
 // sign up page
 import React from 'react';
 import { Link } from 'react-router-dom';
-=======
-import React, { useState } from 'react';
->>>>>>> ab6bd64a566950b6ce0dd48f59bec61f75302d49
 import '../App.css';
 
 const MyRegistrationPage = () => {
@@ -14,17 +10,6 @@ const MyRegistrationPage = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-<<<<<<< HEAD
-    const handleRegistration = () => {
-        alert("Account Created Successfully!")
-    }
-
-    return(
-        <div className = "account-creation">
-            <div className = "new-account">
-                <p><Link to = "/">Back to homepage</Link></p>
-            </div>
-=======
     // Function to handle form submission
     const handleSubmit = async (event) => {
         event.preventDefault();  // Prevent the form from refreshing the page
@@ -66,7 +51,6 @@ const MyRegistrationPage = () => {
 
     return (
         <div className="account-creation">
->>>>>>> ab6bd64a566950b6ce0dd48f59bec61f75302d49
             <h2>Sign Up for an Account</h2>
             <form onSubmit={handleSubmit}>
                 <div className="new-account">
@@ -102,17 +86,6 @@ const MyRegistrationPage = () => {
                     />
                 </div>
 
-<<<<<<< HEAD
-                    <div className = "new-account">
-                        <label htmlFor = "password">Password</label>
-                        <input type = "password" id = "password" required />
-                    </div>
-
-                    <button type = "createaccount" onClick={handleRegistration}>Create New Account</button>
-                
-            </form>
-
-=======
                 <div className="new-account">
                     <label htmlFor="password">Password</label>
                     <input
@@ -126,7 +99,6 @@ const MyRegistrationPage = () => {
 
                 <button type="submit">Create New Account</button>
             </form>
->>>>>>> ab6bd64a566950b6ce0dd48f59bec61f75302d49
         </div>
     );
 };

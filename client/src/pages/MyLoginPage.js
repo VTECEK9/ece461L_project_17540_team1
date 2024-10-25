@@ -76,13 +76,9 @@ const MyLoginPage = () => {
                     <p>Don't have an account? <Link to="/signuppage">Sign up</Link></p>
                 </div>
             </div>
-<<<<<<< HEAD
             <div className = "bottom">
                 <p><Link to = "/passwordpage">Forgot your password? </Link></p>
             </div>
-           </div>
-=======
->>>>>>> ab6bd64a566950b6ce0dd48f59bec61f75302d49
         </div>
     );
 };
