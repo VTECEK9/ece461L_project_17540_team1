@@ -9,10 +9,45 @@ button{
     background-color: #5cacba;
     font-size: 16px;
     transition: background-color 0.3s;
+    margin-bottom: 5px;
 }
 
 button:hover{
     background-color: #315a61;
+}
+
+.hwsets-fix{
+    display: flex;
+    flex-direction: column;
+}
+
+.resource-management {
+    background: linear-gradient(135deg, #5cacba, #5c5492);
+    width: 300%;
+    max-width: 400px;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+
+}
+
+.request-box,
+.capacity-box,
+.available-box{
+    margin-bottom: 10px;
+}
+
+input.trial{
+    border: 1px solid #ccc;
+    margin-left: 20px;
+    border-radius: 5px;
+}
+
+label{
+    display:block;
+    margin-bottom: 10px;
+
 }
 
 .create-project h2{

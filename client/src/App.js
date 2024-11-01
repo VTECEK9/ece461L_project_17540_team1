@@ -5,12 +5,14 @@ import MyLoginPage from './pages/MyLoginPage';
 import MyRegistrationPage from './pages/MyRegistrationPage';
 import MyPasswordPage from './pages/MyPasswordPage';
 import MyUserPortal from './pages/MyUserPortal';
+import Checkout from './components/Checkout';
 
 const App = () => (
     
     <BrowserRouter>
         <Routes>
             <Route path="/" element={<MyLoginPage />}/>
+            <Route path="/checkout" element ={<Checkout />}/>
             <Route path = "/signuppage" element ={<MyRegistrationPage />}/>
             <Route path = "/passwordpage" element = {<MyPasswordPage />}/>
             <Route path = "/projectpage" element = {<MyUserPortal />}/>

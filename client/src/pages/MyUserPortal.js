@@ -1,5 +1,5 @@
 //Package management page
-import React from 'react';
+// import React from 'react';
 import { Link } from 'react-router-dom';
 import '../App.css';
 import React, { useState } from 'react';
@@ -41,6 +41,7 @@ const MyUserPortal = () => {
   return (
     <div>
       <h1>Projects</h1>
+      <p><Link to = "/checkout">Resources Management</Link></p>
       {/* Map through the projects array to render each Project component */}
       {projects.map((project) => (
         <Project
