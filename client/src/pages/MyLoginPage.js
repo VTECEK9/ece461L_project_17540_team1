@@ -34,7 +34,7 @@ const MyLoginPage = () => {
             // Handle the response from the backend (success or failure)
             if (data.status === 'success') {
                 alert('Login successful');
-                navigate("/projectpage")
+                navigate("/createprojects")
             } else {
                 alert('Invalid username or password');
             }

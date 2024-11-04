@@ -18,6 +18,19 @@ const Project = () => {
         <div className = "create-project">
             <h2>Projects</h2>
             <button onClick = {handleCreateProject}>Create New Project</button>
+            <div className='join-project'>
+                        <h2>Join Project</h2>
+                        <form>
+                            <div className = "join-project">
+                                <label htmlFor = "projectid">Project ID</label>
+                                <input type = "projectid" id = "projectid" required />
+                            </div>
+
+                            <button type = "joinproject">Enter</button>
+                        </form>
+
+
+                    </div>
             {createProject && (
                 <div className = "project-details">
                     <h2>Project Details</h2>
@@ -39,12 +52,30 @@ const Project = () => {
 
                         <button type = "savedetails">Save New Project Details</button>
                     </form>
+
+        
+
             </div>
+
+        
+
+        
+
+
             )}
-        </div>
-    );
+
+            </div>
 
 
-}
+       
+
+
+        
+
+        );
+
+         
+
+};
 
 export default Project;
