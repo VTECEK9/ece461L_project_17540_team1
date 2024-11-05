@@ -39,7 +39,7 @@ body{
 .login-credentials input{
     border: none;
     border-radius: 5px;
-    width: 100%;
+    width: 90%;
     padding: 8px;
     outline: none;
 }
