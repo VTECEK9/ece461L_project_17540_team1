@@ -4,7 +4,7 @@ button{
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    width: 100%;
+    width: 95%;
     padding: 10px;
     background-color: #5cacba;
     font-size: 16px;
@@ -16,9 +16,33 @@ button:hover{
     background-color: #315a61;
 }
 
+.user-buttons{
+    align-items: right;
+    margin-right: 5px;
+}
+
 .hwsets-fix{
     display: flex;
     flex-direction: column;
+}
+
+.join-project h2{
+    color: white;
+}
+
+.join-project input{
+    border: none;
+    border-radius: 5px;
+    width: 90%;
+    padding: 8px;
+    margin-bottom: 10px;
+    margin-right: 50px;
+    outline: none;
+}
+
+.join-project label{
+    color: white;
+
 }
 
 .resource-management {
@@ -44,18 +68,54 @@ input.trial{
     border-radius: 5px;
 }
 
+.project-box{
+    background: linear-gradient(135deg, #5cacba, #5c5492);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+    border: 1px solid #ccc;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin: 10px 0;
+    display: flex;
+    
+}
+
+.hw-sets{
+    flex: 1;
+    margin-left: 30px;
+}
+
+.check-in{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    margin-right: 30px;
+}
+
+.project-users{
+    flex: 1;
+    margin-left: 30px;
+}
+
 label{
     display:block;
     margin-bottom: 10px;
 
 }
 
-.create-project h2{
-    color: white;
-}
 
-.join-project h2{
+.create-project{
+    background: linear-gradient(135deg, #90cbd5, #afdfc5);
+    width: 100%;
+    max-width: 400px;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     color: white;
+
 }
 
 .project-details h2 {
@@ -78,9 +138,10 @@ label{
 .new-project input{
     border: none;
     border-radius: 5px;
-    width: 100%;
+    width: 90%;
     padding: 8px;
     outline: none;
+    align-items: center;
 }
 
 .new-project input:focus{

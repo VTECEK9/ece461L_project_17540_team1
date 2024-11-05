@@ -5,17 +5,6 @@ import '../App.css';
 import React, { useState } from 'react';
 
 
-//const MyUserPortal = () => {
-  //  return(
-    //    <h1>
-      //      Placeholder for project page
-        //</h1>
-    //);
-
-//}
-
-
-
 // Main Projects Component
 const MyUserPortal = () => {
   // State to hold the list of projects
@@ -58,27 +47,20 @@ const MyUserPortal = () => {
 // Project Component
 const Project = ({ project, onJoin, onLeave }) => {
   return (
-    <div style={{ 
-      border: '1px solid #ccc', // Border around each project
-      padding: '10px', // Padding for the project box
-      margin: '10px 0', // Margin for spacing between projects
-      display: 'flex', // Use flexbox for layout
-      justifyContent: 'space-between', // Space out elements
-      alignItems: 'center' // Center align items vertically
-    }}>
-      <div style={{ flex: 1 }}> {/* Flex item for project name and users */}
-        <h2>{project.name}</h2> {/* Display the project name */}
-        <p>Authorized Users: {project.users}</p> {/* Display authorized users */}
+    <div class = "project-box">
+      <div class = "project-users">
+        <h2>{project.name}</h2> 
+        <p>Authorized Users: {project.users}</p>
       </div>
-      <div style={{ flex: 1 }}> {/* Flex item for hardware sets */}
-        <p>HWSet1: {project.hwSet1}/100</p> {/* Display the count of HWSet1 */}
-        <p>HWSet2: {project.hwSet2}/100</p> {/* Display the count of HWSet2 */}
+      <div class = "hw-sets"> 
+        <p>HWSet1: {project.hwSet1}/100</p> 
+        <p>HWSet2: {project.hwSet2}/100</p> 
       </div>
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}> {/* Flex item for input and buttons */}
-        <input type="number" placeholder="Enter qty" style={{ marginRight: '10px' }} /> {/* Input field for quantity */}
-        <button style={{ marginRight: '5px' }}>Check In</button> {/* Button to check in hardware */}
-        <button style={{ marginRight: '5px' }}>Check Out</button> {/* Button to check out hardware */}
-        {/* Conditional rendering of buttons based on authorization status */}
+      <div class = "check-in"> 
+        <input type="number" placeholder="Enter qty" style={{ marginRight: '30px' }} /> 
+        <button class = "user-buttons">Check In</button> 
+        <button class = "user-buttons">Check Out</button> 
+      
         {project.authorized ? (
           <button onClick={() => onLeave(project.id)}>Leave</button> // Leave button for authorized users
         ) : (
@@ -89,18 +71,5 @@ const Project = ({ project, onJoin, onLeave }) => {
   );
 };
 
-//export default Projects; // Export the Projects component as the default export
-
-
-
-// CheckinButton Functionq
-
-
-
-//Checkout Button Function
-
-//Leave Button
-
-//Join Button
 
 export default MyUserPortal;

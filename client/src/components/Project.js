@@ -26,7 +26,7 @@ const Project = () => {
                                 <input type = "projectid" id = "projectid" required />
                             </div>
 
-                            <button type = "joinproject">Enter</button>
+                            <button>Enter</button>
                         </form>
 
 
@@ -73,8 +73,6 @@ const Project = () => {
         
 
         );
-
-         
 
 };
 
