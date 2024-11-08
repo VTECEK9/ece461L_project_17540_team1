@@ -34,7 +34,20 @@ const MyLoginPage = () => {
             // Handle the response from the backend (success or failure)
             if (data.status === 'success') {
                 alert('Login successful');
-                navigate("/createprojects")
+
+                localStorage.setItem('userId', data.userId);
+                localStorage.setItem('username', data.username);
+
+                if (data.projects && data.projects.length > 0) {
+                    navigate("/projectpage");  // Go to project dashboard if they have projects
+
+                } else {
+                    navigate("/createprojects");  // Go to create projects if they don't
+                }
+
+                localStorage.setItem('userId', data.userId);
+                localStorage.setItem('username', data.username);
+
             } else {
                 alert('Invalid username or password');
             }

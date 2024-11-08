@@ -1,75 +1,106 @@
-//Package management page
-// import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../App.css';
-import React, { useState } from 'react';
 
-
-// Main Projects Component
 const MyUserPortal = () => {
-  // State to hold the list of projects
-  const [projects, setProjects] = useState([
-    // Initial project data with id, name, authorized users, hardware counts, and authorization status
-    { id: 1, name: 'Project Name 1', users: 'User A, User B', hwSet1: 50, hwSet2: 0, authorized: false },
-    { id: 2, name: 'Project Name 2', users: 'User C, User D', hwSet1: 50, hwSet2: 0, authorized: true },
-    { id: 3, name: 'Project Name 3', users: 'User E', hwSet1: 0, hwSet2: 0, authorized: false }
-  ]);
+    const [projects, setProjects] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-  // Function to handle joining a project
-  const joinProject = (id) => {
-    // Logic for joining the project (e.g., API call)
-    console.log(`Joined project ${id}`);
-  };
+    useEffect(() => {
+        const fetchProjects = async () => {
+            const userId = localStorage.getItem('userId');
+            console.log('Fetching projects for userId:', userId);
 
-  // Function to handle leaving a project
-  const leaveProject = (id) => {
-    // Logic for leaving the project (e.g., API call)
-    console.log(`Left project ${id}`);
-  };
+            try {
+                const response = await fetch('http://localhost:5000/get_user_projects', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ userId })
+                });
 
-  return (
-    <div>
-      <h1>Projects</h1>
-      <p><Link to = "/checkout">Resources Management</Link></p>
-      {/* Map through the projects array to render each Project component */}
-      {projects.map((project) => (
-        <Project
-          key={project.id} // Unique key for each project
-          project={project} // Pass the current project object as a prop
-          onJoin={joinProject} // Pass the join function as a prop
-          onLeave={leaveProject} // Pass the leave function as a prop
-        />
-      ))}
-    </div>
-  );
+                const data = await response.json();
+                console.log('Received data:', data);
+
+                if (data.status === 'success') {
+                    setProjects(data.projects);
+                }
+            } catch (error) {
+                console.error('Error fetching projects:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProjects();
+    }, []);
+
+    // Changed function names to match what's being passed to Project component
+    const handleJoinProject = async (projectId) => {
+        console.log(`Joining project ${projectId}`);
+        // TODO: Implement join logic
+    };
+
+    const handleLeaveProject = async (projectId) => {
+        console.log(`Leaving project ${projectId}`);
+        // TODO: Implement leave logic
+    };
+
+    if (loading) {
+        return <div>Loading projects...</div>;
+    }
+
+    return (
+        <div className="projects-container">
+            <h1>My Projects</h1>
+            <p><Link to="/checkout">Resources Management</Link></p>
+
+            {projects.length === 0 ? (
+                <div>
+                    <p>No projects found.</p>
+                    <Link to="/createprojects">Create a new project</Link>
+                </div>
+            ) : (
+                <div>
+                    {projects.map((project) => (
+                        <Project
+                            key={project.id}
+                            project={project}
+                            onJoin={handleJoinProject}    // Now matches the function name
+                            onLeave={handleLeaveProject}  // Now matches the function name
+                        />
+                    ))}
+                </div>
+            )}
+        </div>
+    );
 };
 
-// Project Component
 const Project = ({ project, onJoin, onLeave }) => {
-  return (
-    <div class = "project-box">
-      <div class = "project-users">
-        <h2>{project.name}</h2> 
-        <p>Authorized Users: {project.users}</p>
-      </div>
-      <div class = "hw-sets"> 
-        <p>HWSet1: {project.hwSet1}/100</p> 
-        <p>HWSet2: {project.hwSet2}/100</p> 
-      </div>
-      <div class = "check-in"> 
-        <input type="number" placeholder="Enter qty" style={{ marginRight: '30px' }} /> 
-        <button class = "user-buttons">Check In</button> 
-        <button class = "user-buttons">Check Out</button> 
-      
-        {project.authorized ? (
-          <button onClick={() => onLeave(project.id)}>Leave</button> // Leave button for authorized users
-        ) : (
-          <button onClick={() => onJoin(project.id)}>Join</button> // Join button for unauthorized users
-        )}
-      </div>
-    </div>
-  );
-};
+    return (
+        <div className="project-box">
+            <div className="project-info">
+                <h2>{project.name}</h2>
+                <p>Description: {project.description}</p>
+                <p>Project ID: {project.projectId}</p>
+                <p>Created By: {project.createdBy}</p>
+            </div>
 
+            <div className="project-users">
+                <p>Members: {project.users.join(', ')}</p>
+            </div>
+
+            <div className="project-actions">
+                <button
+                    className="action-button"
+                    onClick={() => project.authorized ? onLeave(project.id) : onJoin(project.id)}
+                >
+                    {project.authorized ? 'Leave' : 'Join'}
+                </button>
+            </div>
+        </div>
+    );
+};
 
 export default MyUserPortal;
