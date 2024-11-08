@@ -1,3 +1,6 @@
+body {
+    height: 100%;
+}
 
 button{
     color: white;
@@ -80,6 +83,7 @@ input.trial{
     padding: 10px;
     margin: 10px 0;
     display: flex;
+    overflow-y: auto;
     
 }
 
@@ -110,11 +114,13 @@ label{
 .create-project{
     background: linear-gradient(135deg, #90cbd5, #afdfc5);
     width: 100%;
+    overflow-y: auto;
     max-width: 400px;
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     color: white;
+    margin-bottom: 20px;
 
 }
 
@@ -187,4 +193,6 @@ label{
     border: 2px solid #ffffff;
 }
 
-
+.projects-container{
+    overflow-y: auto;
+}
