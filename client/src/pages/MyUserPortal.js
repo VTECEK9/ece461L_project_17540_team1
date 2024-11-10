@@ -14,6 +14,14 @@ const MyUserPortal = () => {
     const [joinProjectId, setJoinProjectId] = useState('');  // For joining projects
     const [newProjectId, setNewProjectId] = useState('');    // For creating projects
 
+
+    // for hardware ests
+    const [hwsets, setHWsets] = useState([
+        // Initial hardware set data for name, available, and capacity
+        { id: 1, hwset1capacity: 45, hwset1available: 20, hwset2capacity: 40, hwset2available: 30},
+    ]);
+    
+
     useEffect(() => {
         const fetchProjects = async () => {
             const userId = localStorage.getItem('userId');
@@ -116,7 +124,6 @@ const MyUserPortal = () => {
     return (
         <div className="projects-container">
             <h1>My Projects</h1>
-            <p><Link to="/checkout">Resources Management</Link></p>
 
             <div className = "create-project">
             <button onClick={handleCreateProject}>Create New Project</button>
@@ -196,6 +203,7 @@ const MyUserPortal = () => {
                         <Project
                             key={project.id}
                             project={project}
+                            hwsets = {hwsets[0]} // passing in example values for hwset
                             onJoin={handleJoinProject}    // Now matches the function name
                             onLeave={handleLeaveProject}  // Now matches the function name
                         />
@@ -207,7 +215,9 @@ const MyUserPortal = () => {
     );
 };
 
-const Project = ({ project, onJoin, onLeave }) => {
+const Project = ({ project, onJoin, onLeave, hwsets }) => {
+    const[request, setRequest] = React.useState('');
+
     return (
         <div className="project-box">
             <div className="project-info">
@@ -215,20 +225,42 @@ const Project = ({ project, onJoin, onLeave }) => {
                 <p>Description: {project.description}</p>
                 <p>Project ID: {project.projectId}</p>
                 <p>Created By: {project.createdBy}</p>
-            </div>
-
-            <div className="project-users">
                 <p>Members: {project.users.join(', ')}</p>
+
             </div>
 
-            <div className="project-actions">
-                <button
-                    className="action-button"
-                    onClick={() => project.authorized ? onLeave(project.id) : onJoin(project.id)}
-                >
-                    {project.authorized ? 'Leave' : 'Join'}
-                </button>
+             <div className="hwsets-boxes">
+
+                <h3>HW Set #1</h3>
+                <p> Capacity: {hwsets.hwset1capacity}</p>
+                <p> Available: {hwsets.hwset1available}</p>
+
+                <h3>HW Set #2</h3>
+                <p> Capacity: {hwsets.hwset2capacity}</p>
+                <p> Available: {hwsets.hwset2available}</p>
+
             </div>
+
+            <div className= "request-amount">
+
+                <h3>Request</h3>
+
+                <input
+                type= "number"
+                placeholder = "Request Amount"
+                value = {request}
+                onChange={(e) => setRequest(e.target.value)}
+                />
+            
+            </div>
+
+            <div className= "buttons">
+                <button style= {{marginRight: '20px'}}>Check-in</button>
+                <button>Check-out</button>
+            </div>
+
+
+
         </div>
     );
 };
