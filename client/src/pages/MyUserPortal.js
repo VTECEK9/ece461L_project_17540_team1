@@ -216,7 +216,8 @@ const MyUserPortal = () => {
 };
 
 const Project = ({ project, onJoin, onLeave, hwsets }) => {
-    const[request, setRequest] = React.useState('');
+    const[request1, setRequest1] = React.useState('');
+    const[request2, setRequest2] = React.useState('');
 
     return (
         <div className="project-box">
@@ -243,13 +244,22 @@ const Project = ({ project, onJoin, onLeave, hwsets }) => {
 
             <div className= "request-amount">
 
-                <h3>Request</h3>
+                <h3>Request HWSet #1</h3>
 
                 <input
                 type= "number"
-                placeholder = "Request Amount"
-                value = {request}
-                onChange={(e) => setRequest(e.target.value)}
+                placeholder = "HWSet 1 Amount"
+                value = {request1}
+                onChange={(e) => setRequest1(e.target.value)}
+                />
+
+                <h3>Request HWSet #2</h3>
+
+                <input
+                type= "number"
+                placeholder = "HWSet 2 Amount"
+                value = {request2}
+                onChange={(e) => setRequest2(e.target.value)}
                 />
             
             </div>
