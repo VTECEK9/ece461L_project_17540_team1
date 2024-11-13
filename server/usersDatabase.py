@@ -39,7 +39,7 @@ def __queryUser(client, username, userId):
     pass
 
 # Function to log in a user
-def login(client, username, password):
+def login_user(client, username, password):
     # Connect to the 'user_management' database and 'users' collection
     db = client['user_management']
     users_collection = db['users']

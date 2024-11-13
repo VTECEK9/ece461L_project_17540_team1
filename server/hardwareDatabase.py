@@ -46,6 +46,8 @@ def queryHardwareSet(client, hwSetName):
 
     query.pop('_id')
 
+    query.pop('Capacity')
+
     return query
 
 

@@ -1,5 +1,6 @@
 # Import necessary libraries and modules
 from pymongo import MongoClient
+from flask import jsonify
 
 from hardwareDatabase import queryHardwareSet, requestSpace
 
@@ -53,12 +54,41 @@ def clean_projects(client):
 
 # Function to create a new project
 def createProject(client, projectName, projectId, description, user):
+    # Connect to the database
     db = client['user_management']
 
     projects = db['projects']
 
-    projects.insert_one({'projectName': projectName, 'projectDescription' : description, 'projectId': projectId, 'createdBy' : user, 'HardwareSet_Usage' : {
-        } ,'members' : [user]})
+    users = db['users']
+
+    # Check if project ID already exists
+    if projects.find_one({'projectId': projectId}):
+        response = {
+            "status": "error",
+            "message": "Project ID already exists"
+        }
+    else:
+        # Create new project document
+        projects.insert_one(
+            {'projectName': projectName,
+             'projectDescription' : description,
+             'projectId': projectId,
+             'createdBy' : user,
+             'HardwareSet_Usage' : {} ,
+             'members' : [user]}
+        )
+
+        response = {
+            "status": "success",
+            "message": "Project created successfully"
+        }
+
+        users.update_one(
+            {'username': user},  # This stays the same
+            {'$push': {'projects': projectId}}
+        )
+
+    return response
 
 # Function to add a user to a project
 def addUser(client, projectId, user):

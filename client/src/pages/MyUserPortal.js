@@ -15,17 +15,16 @@ const MyUserPortal = () => {
     const [newProjectId, setNewProjectId] = useState('');    // For creating projects
 
 
-    // for hardware ests
-    const [hwsets, setHWsets] = useState([
-        // Initial hardware set data for name, available, and capacity
-        { id: 1, hwset1capacity: 45, hwset1available: 20, hwset2capacity: 40, hwset2available: 30},
-    ]);
+
+
+    const username = localStorage.getItem('username');
+
+
     
 
     useEffect(() => {
         const fetchProjects = async () => {
-            const userId = localStorage.getItem('userId');
-            console.log('Fetching projects for userId:', userId);
+            console.log('Fetching projects for username:', username);
 
             try {
                 const response = await fetch('http://localhost:5000/get_user_projects', {
@@ -33,7 +32,7 @@ const MyUserPortal = () => {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ userId })
+                    body: JSON.stringify({ username })
                 });
 
                 const data = await response.json();
@@ -52,6 +51,9 @@ const MyUserPortal = () => {
         fetchProjects();
     }, []);
 
+
+
+
     const handleCreateProject = () => {
         if (createProject == false) {
             setCreateProject(true);
@@ -64,12 +66,11 @@ const MyUserPortal = () => {
      const handleSaveProject = async (e) => {
         e.preventDefault();
 
-        const userId = localStorage.getItem('userId');
-        console.log('Retrieved userId from localStorage:', userId); // Debug print
+        console.log('Retrieved username from localStorage:', username); // Debug print
 
-        // Check if userId exists
-        if (!userId) {
-            alert('User ID not found. Please log in again.');
+        // Check if username exists
+        if (!username) {
+            alert('Username not found. Please log in again.');
             return;
         }
 
@@ -77,7 +78,7 @@ const MyUserPortal = () => {
             projectName,
             projectDescription,
             projectId: newProjectId,
-            userId
+            username
         };
         console.log('Sending project data:', projectData); // Debug print
 
@@ -207,7 +208,7 @@ const MyUserPortal = () => {
                         <Project
                             key={project.id}
                             project={project}
-                            hwsets = {hwsets[0]} // passing in example values for hwset
+                            hwsets = {project.HardwareSet_Usage} // passing in example values for hwset
                             onJoin={handleJoinProject}    // Now matches the function name
                             onLeave={handleLeaveProject}  // Now matches the function name
                         />
@@ -220,8 +221,12 @@ const MyUserPortal = () => {
 };
 
 const Project = ({ project, onJoin, onLeave, hwsets }) => {
-    const[request1, setRequest1] = React.useState('');
-    const[request2, setRequest2] = React.useState('');
+    const [request1, setRequest1] = React.useState('');
+    const [request2, setRequest2] = React.useState('');
+
+    // Provide default values if HardwareSet_Usage is null or undefined
+    const hwset1Available = hwsets?.hwset1available ?? 100; // Default to 100 if undefined
+    const hwset2Available = hwsets?.hwset2available ?? 100; // Default to 100 if undefined
 
     return (
         <div className="project-box">
@@ -231,50 +236,38 @@ const Project = ({ project, onJoin, onLeave, hwsets }) => {
                 <p>Project ID: {project.projectId}</p>
                 <p>Created By: {project.createdBy}</p>
                 <p>Members: {project.users.join(', ')}</p>
-
             </div>
 
-             <div className="hwsets-boxes">
-
+            <div className="hwsets-boxes">
                 <h3>HW Set #1</h3>
-                <p> Capacity: {hwsets.hwset1capacity}</p>
-                <p> Available: {hwsets.hwset1available}</p>
+                <p>Available: {hwset1Available}</p>
 
                 <h3>HW Set #2</h3>
-                <p> Capacity: {hwsets.hwset2capacity}</p>
-                <p> Available: {hwsets.hwset2available}</p>
-
+                <p>Available: {hwset2Available}</p>
             </div>
 
-            <div className= "request-amount">
-
+            <div className="request-amount">
                 <h3>Request HWSet #1</h3>
-
                 <input
-                type= "number"
-                placeholder = "HWSet 1 Amount"
-                value = {request1}
-                onChange={(e) => setRequest1(e.target.value)}
+                    type="number"
+                    placeholder="HWSet 1 Amount"
+                    value={request1}
+                    onChange={(e) => setRequest1(e.target.value)}
                 />
 
                 <h3>Request HWSet #2</h3>
-
                 <input
-                type= "number"
-                placeholder = "HWSet 2 Amount"
-                value = {request2}
-                onChange={(e) => setRequest2(e.target.value)}
+                    type="number"
+                    placeholder="HWSet 2 Amount"
+                    value={request2}
+                    onChange={(e) => setRequest2(e.target.value)}
                 />
-            
             </div>
 
-            <div className= "buttons">
-                <button style= {{marginRight: '20px'}}>Check-in</button>
+            <div className="buttons">
+                <button style={{ marginRight: '20px' }}>Check-in</button>
                 <button>Check-out</button>
             </div>
-
-
-
         </div>
     );
 };

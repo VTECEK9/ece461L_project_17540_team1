@@ -45,7 +45,6 @@ const MyLoginPage = () => {
                     navigate("/createprojects");  // Go to create projects if they don't
                 }
 
-                localStorage.setItem('userId', data.userId);
                 localStorage.setItem('username', data.username);
 
             } else {

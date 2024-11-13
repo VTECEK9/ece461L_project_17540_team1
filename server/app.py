@@ -4,7 +4,9 @@ from flask import Flask, request, jsonify
 from pymongo.mongo_client import MongoClient
 from flask_cors import CORS
 import os
-from usersDatabase import addUser
+from usersDatabase import addUser, login_user
+from projectsDatabase import createProject
+from hardwareDatabase import queryHardwareSet
 
 
 # this is the flask app that helps us interface with the frontend and will call the appropriate backend functions
@@ -39,7 +41,9 @@ def login():
     username = data.get('username')
     password = data.get('password')
 
-    response = login(client, username, password)
+    response = login_user(client, username, password)
+
+
 
     # Return a JSON response
     return jsonify(response)
@@ -49,6 +53,7 @@ def login():
 def add_user():
     # Extract data from request
     data = request.get_json()
+
     firstName = data.get('firstname') # we dont do anything with their name lol
     lastName = data.get('lastname')
     username = data.get('username')
@@ -64,59 +69,30 @@ def add_user():
 @app.route('/create_project', methods=['POST'])
 def create_project():
     data = request.get_json()
+
+    print(f"Received data: {data}")  # Log the received payload
+
     project_name = data.get('projectName')
     project_description = data.get('projectDescription')
     project_id = data.get('projectId')
-    user_id = data.get('userId')
+    username = data.get('username')
 
-    # Connect to the database
-    db = client['user_management']
-    projects_collection = db['projects']
-    users_collection = db['users']
+    response = createProject(client, project_name, project_description, project_id, username)
 
-    # Check if project ID already exists
-    if projects_collection.find_one({'projectId': project_id}):
-        return jsonify({
-            "status": "error",
-            "message": "Project ID already exists"
-        })
+    return jsonify(response)
 
-    # Create new project document
-    project = {
-        'projectName': project_name,
-        'projectDescription': project_description,
-        'projectId': project_id,
-        'createdBy': user_id,
-        'members': [user_id]  # Initialize with creator as first member
+@app.route('/get_hw_sets', methods=['GET'])
+def get_hw_sets():
+    HWset1_query = queryHardwareSet(client, 'HWSet1')
+    HWset2_query = queryHardwareSet(client, 'HWSet2')
+
+    response = {
+        'HWset1': HWset1_query,
+        'HWset2': HWset2_query
     }
 
-    try:
-        # Insert project into projects collection
-        projects_collection.insert_one(project)
+    return jsonify(response)
 
-        # Update user's projects array - note the change in the query
-        result = users_collection.update_one(
-            {'userId': user_id},  # This stays the same
-            {'$push': {'projects': project_id}}
-        )
-
-        # Add debug prints
-        print(f"Update result: {result.modified_count} documents modified")
-
-        # Verify the update
-        updated_user = users_collection.find_one({'userId': user_id})
-        print(f"Updated user projects: {updated_user['projects']}")
-
-        return jsonify({
-            "status": "success",
-            "message": "Project created successfully"
-        })
-    except Exception as e:
-        print(f"Error: {str(e)}")
-        return jsonify({
-            "status": "error",
-            "message": f"Error creating project: {str(e)}"
-        })
 
 
 
@@ -125,14 +101,14 @@ def create_project():
 @app.route('/get_user_projects', methods=['POST'])
 def get_user_projects():
     data = request.get_json()
-    user_id = data.get('userId')
+    username = data.get('username')
 
     db = client['user_management']
     users_collection = db['users']
     projects_collection = db['projects']
 
     # First get the user's project IDs from their document
-    user = users_collection.find_one({'userId': user_id})
+    user = users_collection.find_one({'username': username})
     if not user:
         return jsonify({
             'status': 'error',
@@ -154,13 +130,18 @@ def get_user_projects():
         'projectId': project['projectId'],
         'createdBy': project['createdBy'],
         'users': project['members'],
-        'authorized': True
+        'authorized': True,
+        'HardwareSet_Usage' : project['HardwareSet_Usage']
     } for project in projects]
+
+    print(formatted_projects)
+
 
     return jsonify({
         'status': 'success',
         'projects': formatted_projects
     })
+
 
 
 

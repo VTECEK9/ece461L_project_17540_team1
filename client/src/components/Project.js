@@ -10,6 +10,9 @@ const Project = () => {
     const [joinProjectId, setJoinProjectId] = useState('');  // For joining projects
     const [newProjectId, setNewProjectId] = useState('');    // For creating projects
 
+    const username = localStorage.getItem('username');
+
+
     const handleCreateProject = () => {
         setCreateProject(true);
     };
@@ -25,11 +28,10 @@ const Project = () => {
     const handleSaveProject = async (e) => {
         e.preventDefault();
 
-        const userId = localStorage.getItem('userId');
-        console.log('Retrieved userId from localStorage:', userId); // Debug print
+        console.log('Retrieved username from localStorage:', username); // Debug print
 
-        // Check if userId exists
-        if (!userId) {
+        // Check if username exists
+        if (!username) {
             alert('User ID not found. Please log in again.');
             return;
         }
@@ -38,7 +40,7 @@ const Project = () => {
             projectName,
             projectDescription,
             projectId: newProjectId,
-            userId
+            username
         };
         console.log('Sending project data:', projectData); // Debug print
 
