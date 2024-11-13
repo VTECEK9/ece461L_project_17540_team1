@@ -4,6 +4,10 @@ from flask import Flask, request, jsonify
 from pymongo.mongo_client import MongoClient
 from flask_cors import CORS
 import os
+from usersDatabase import addUser
+
+
+# this is the flask app that helps us interface with the frontend and will call the appropriate backend functions
 
 # Define the MongoDB connection string
 uri = "mongodb+srv://shivanshmadan:fsha4TPS9mOeogmG@users.8d1mt.mongodb.net/?retryWrites=true&w=majority&appName=Users"
@@ -35,25 +39,7 @@ def login():
     username = data.get('username')
     password = data.get('password')
 
-    # Connect to the 'user_management' database and 'users' collection
-    db = client['user_management']
-    users_collection = db['users']
-    print(users_collection)
-
-    # Attempt to log in the user
-    user = users_collection.find_one({'username': username})
-
-    if user and user['password'] == password:
-
-        response = {
-            "message": "Login successful",
-            "status": "success",
-            "projects": user['projects'],
-            "userId": user['userId'],
-            "username": user['username']
-        }
-    else:
-        response = {"message": "Invalid username or password", "status": "error"}
+    response = login(client, username, password)
 
     # Return a JSON response
     return jsonify(response)
@@ -63,32 +49,14 @@ def login():
 def add_user():
     # Extract data from request
     data = request.get_json()
-    firstName = data.get('firstname')
+    firstName = data.get('firstname') # we dont do anything with their name lol
     lastName = data.get('lastname')
     username = data.get('username')
     userId = data.get('userId')
     password = data.get('password')
 
-    # Connect to the 'user_management' database and 'users' collection
-    db = client['user_management']
-    users_collection = db['users']
-
-    # Check if the user already exists
-    if users_collection.find_one({'userId': userId}):
-        response = {"message": "User with this ID already exists.", "status": "error"}
-    else:
-        # Create a new user entry
-        user = {
-            'FirstName' : firstName,
-            'LastName' : lastName,
-            'username': username,
-            'userId': userId,
-            'password': password,
-            'projects': []
-        }
-        # Insert the new user into the users collection
-        users_collection.insert_one(user)
-        response = {"message": "User added successfully.", "status": "success"}
+    # call add user function to add the user, and return the appropriate response
+    response = addUser(client, username, password)
 
     # Return a JSON response
     return jsonify(response)
@@ -193,6 +161,11 @@ def get_user_projects():
         'status': 'success',
         'projects': formatted_projects
     })
+
+
+
+
+
 
 # Main entry point for the application
 if __name__ == '__main__':

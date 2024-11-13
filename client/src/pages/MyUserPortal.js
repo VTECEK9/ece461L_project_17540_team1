@@ -53,7 +53,11 @@ const MyUserPortal = () => {
     }, []);
 
     const handleCreateProject = () => {
-        setCreateProject(true);
+        if (createProject == false) {
+            setCreateProject(true);
+        } else {
+            setCreateProject(false);
+        }
     };
 
      // Function to handle creating a new project

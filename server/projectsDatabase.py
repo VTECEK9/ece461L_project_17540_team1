@@ -1,7 +1,10 @@
 # Import necessary libraries and modules
 from pymongo import MongoClient
 
-import hardwareDB
+from hardwareDatabase import queryHardwareSet, requestSpace
+
+
+# lets manage the projects here
 
 '''
 Structure of Project entry:
@@ -14,20 +17,62 @@ Project = {
 }
 '''
 
+def connect():
+    uri = "mongodb+srv://shivanshmadan:fsha4TPS9mOeogmG@users.8d1mt.mongodb.net/?retryWrites=true&w=majority&appName=Users"
+
+    client = MongoClient(uri)
+
+    return client
+
+
+
+
 # Function to query a project by its ID
 def queryProject(client, projectId):
-    # Query and return a project from the database
-    pass
+
+    db = client['user_management']
+
+    projects = db['projects']
+
+    document = projects.find_one({'projectId': projectId})
+
+    document.pop('_id')
+
+    return document
+
+
+def clean_projects(client):
+    db = client['user_management']
+    projects = db['projects']
+
+    result = projects.update_many( {'HardwareSet_Usage' : {'$exists' : False}}, {'$set': {'HardwareSet_Usage' : {}}}
+    )
+
+
+
 
 # Function to create a new project
-def createProject(client, projectName, projectId, description):
-    # Create a new project in the database
-    pass
+def createProject(client, projectName, projectId, description, user):
+    db = client['user_management']
+
+    projects = db['projects']
+
+    projects.insert_one({'projectName': projectName, 'projectDescription' : description, 'projectId': projectId, 'createdBy' : user, 'HardwareSet_Usage' : {
+        } ,'members' : [user]})
 
 # Function to add a user to a project
-def addUser(client, projectId, userId):
-    # Add a user to the specified project
-    pass
+def addUser(client, projectId, user):
+    db = client['user_management']
+
+    projects = db['projects']
+
+    projects.update_one({'projectId': projectId}, {'$addToSet': {'members' : user}})
+
+def deleteProject(client, projectId):
+    db = client['user_management']
+    projects = db['projects']
+    projects.delete_one({'projectId': projectId})
+
 
 # Function to update hardware usage in a project
 def updateUsage(client, projectId, hwSetName):
@@ -44,3 +89,31 @@ def checkInHW(client, projectId, hwSetName, qty, userId):
     # Check in hardware for the specified project and update availability
     pass
 
+
+def main():
+    client = connect()
+
+    clean_projects(client)
+
+
+    # user = "Jake Paul"
+    #
+    # project = "Team 10"
+    #
+    # projectID = "jpt10"
+    #
+    # description = "It's everyday bro"
+    #
+    # # createProject(client, project, projectID, description, user)
+    #
+    # addUser(client, projectID, "Logan Paul")
+    #
+    # query = queryProject(client, 'jpt10')
+    #
+    # print(query)
+
+
+
+
+if __name__ == '__main__':
+    main()
