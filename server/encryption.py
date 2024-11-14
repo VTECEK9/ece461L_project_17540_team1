@@ -33,5 +33,3 @@ def shift(inputText, dir):
                 idx -= n
         toReturn.append(chr(idx))
     return "".join(toReturn)
-
-print(encrypt("huddyg"))

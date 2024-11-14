@@ -129,6 +129,10 @@ const MyUserPortal = () => {
 
     return (
         <div className="projects-container">
+            <div className = "Homepage">
+                <p><Link to = "/">Back to login</Link></p>
+            </div>
+
             <h1>My Projects</h1>
 
             <div className = "create-project">
