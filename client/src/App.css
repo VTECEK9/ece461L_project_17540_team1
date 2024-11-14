@@ -150,7 +150,7 @@ label{
 .create-project{
     background: linear-gradient(135deg, #90cbd5, #afdfc5);
     width: 100%;
-    overflow-y: auto;
+    
     max-width: 400px;
     padding: 30px;
     border-radius: 10px;
@@ -227,8 +227,4 @@ label{
 
 .new-account input:focus{
     border: 2px solid #ffffff;
-}
-
-.projects-container{
-    overflow-y: auto;
 }

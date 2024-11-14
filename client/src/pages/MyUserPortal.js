@@ -205,7 +205,6 @@ const MyUserPortal = () => {
             {projects.length === 0 ? (
                 <div>
                     <p>No projects found.</p>
-                    <Link to="/createprojects">Create a new project</Link>
                 </div>
             ) : (
                 <div>
