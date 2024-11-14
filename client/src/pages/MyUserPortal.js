@@ -102,6 +102,7 @@ const MyUserPortal = () => {
                 setProjectName('');
                 setProjectDescription('');
                 setNewProjectId('');
+                window.location.reload()
             } else {
                 alert(data.message || 'Failed to create project');
             }

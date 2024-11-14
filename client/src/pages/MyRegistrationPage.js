@@ -1,6 +1,6 @@
 // sign up page
 import React, {useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../App.css';
 
 const MyRegistrationPage = () => {
@@ -9,6 +9,7 @@ const MyRegistrationPage = () => {
     const [lastName, setLastName] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     // Function to handle form submission
     const handleSubmit = async (event) => {
@@ -38,6 +39,7 @@ const MyRegistrationPage = () => {
             // Handle the response from the backend (success or failure)
             if (data.status === 'success') {
                 alert('Account created successfully');
+                navigate("/projectpage");
             } else {
                 alert('Error creating account: ' + data.message);
             }

@@ -1,6 +1,7 @@
 # Import necessary libraries and modules
 from pymongo import MongoClient
 from flask import jsonify
+from encryption import decrypt
 
 from hardwareDatabase import queryHardwareSet, requestSpace
 
@@ -73,9 +74,9 @@ def createProject(client, projectName, projectId, description, user):
             {'projectName': projectName,
              'projectDescription' : description,
              'projectId': projectId,
-             'createdBy' : user,
+             'createdBy' : decrypt(user),
              'HardwareSet_Usage' : {} ,
-             'members' : [user]}
+             'members' : [decrypt(user)]}
         )
 
         response = {
