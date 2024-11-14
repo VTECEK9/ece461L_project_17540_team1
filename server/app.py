@@ -8,7 +8,6 @@ from usersDatabase import addUser, login_user
 from projectsDatabase import createProject
 from hardwareDatabase import queryHardwareSet
 
-
 # this is the flask app that helps us interface with the frontend and will call the appropriate backend functions
 
 # Define the MongoDB connection string
@@ -43,7 +42,7 @@ def login():
 
     response = login_user(client, username, password)
 
-
+    print(response)
 
     # Return a JSON response
     return jsonify(response)

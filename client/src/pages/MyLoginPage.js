@@ -38,12 +38,7 @@ const MyLoginPage = () => {
                 localStorage.setItem('userId', data.userId);
                 localStorage.setItem('username', data.username);
 
-                if (data.projects && data.projects.length > 0) {
-                    navigate("/projectpage");  // Go to project dashboard if they have projects
-
-                } else {
-                    navigate("/createprojects");  // Go to create projects if they don't
-                }
+                navigate("/projectpage");
 
                 localStorage.setItem('username', data.username);
 
@@ -88,9 +83,6 @@ const MyLoginPage = () => {
                 </form>
                 <div className="bottom">
                     <p>Don't have an account? <Link to="/signuppage">Sign up</Link></p>
-                </div>
-                <div className = "bottom">
-                    <p><Link to = "/passwordpage">Forgot your password? </Link></p>
                 </div>
             </div>
         </div>

@@ -1,12 +1,11 @@
 # Import necessary libraries and modules
 from pymongo import MongoClient
-
+from encryption import encrypt
 
 '''
 Structure of User entry:
 User = {
     'username': username,
-    'userId': userId,
     'password': password,
     'projects': [project1_ID, project2_ID, ...]
 }
@@ -17,14 +16,20 @@ def addUser(client, username, password):
     db = client['user_management']
     users_collection = db['users']
 
+    encrypted_username = encrypt(username)
+    encrypted_password = encrypt(password)
+
+    print(encrypted_username)
+    print(encrypted_password)
+
     # Check if the user already exists
-    if users_collection.find_one({'username': username}):
+    if users_collection.find_one({'username': encrypted_username}):
         response = {"message": "User with this ID already exists.", "status": "error"}
     else:
         # Create a new user entry
         user = {
-            'username': username,
-            'password': password,
+            'username': encrypted_username,
+            'password': encrypted_password,
             'projects': []
         }
         # Insert the new user into the users collection
@@ -44,10 +49,16 @@ def login_user(client, username, password):
     db = client['user_management']
     users_collection = db['users']
 
-    # Attempt to log in the user
-    user = users_collection.find_one({'username': username})
+    encrypted_username = encrypt(username)
+    encrypted_password = encrypt(password)
 
-    if user and user['password'] == password:
+    print(encrypted_username)
+    print(encrypted_password)
+
+    # Attempt to log in the user
+    user = users_collection.find_one({'username': encrypted_username})
+
+    if user and user['password'] == encrypted_password:
 
         response = {
             "message": "Login successful",
@@ -56,7 +67,7 @@ def login_user(client, username, password):
             "username": user['username']
         }
     else:
-        response = {"message": "Invalid username or password", "status": "error"}
+        response = {"message": "Username or password error", "status": "error"}
 
     return response
 
