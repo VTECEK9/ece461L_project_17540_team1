@@ -143,6 +143,7 @@ const MyUserPortal = () => {
 
             <h1>My Projects</h1>
 
+
             <div className = "create-project">
             <button onClick={handleCreateProject}>Create New Project</button>
 
@@ -208,6 +209,10 @@ const MyUserPortal = () => {
 
             )}
 
+            </div>
+
+            <div classname = "capacityamount">
+                <h4>Global Capacity Amount for HWSets: 100</h4>
             </div>
 
             {projects.length === 0 ? (
