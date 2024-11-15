@@ -5,8 +5,6 @@ import '../App.css';
 
 const MyRegistrationPage = () => {
     // State to store form input values
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
@@ -17,11 +15,8 @@ const MyRegistrationPage = () => {
 
         // Create a payload to send to your backend
         const payload = {
-            firstname: firstName,
-            lastname: lastName,
             username: username,
             password: password,
-            userId: firstName[0] + lastName[0] + username[0] + password[0]
         };
 
         try {
@@ -56,27 +51,6 @@ const MyRegistrationPage = () => {
             </div>
             <h2>Sign Up for an Account</h2>
             <form onSubmit={handleSubmit}>
-                <div className="new-account">
-                    <label htmlFor="firstname">First Name</label>
-                    <input
-                        type="text"
-                        id="firstname"
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
-                        required
-                    />
-                </div>
-
-                <div className="new-account">
-                    <label htmlFor="lastname">Last Name</label>
-                    <input
-                        type="text"
-                        id="lastname"
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
-                        required
-                    />
-                </div>
 
                 <div className="new-account">
                     <label htmlFor="username">Username</label>

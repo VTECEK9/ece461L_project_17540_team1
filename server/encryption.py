@@ -4,8 +4,8 @@ from hashlib import sha256
 n = 13
 d = 1
 
-def encrypt(str):
-    return sha256(str.encode()).hexdigest()
+# def encrypt(str):
+#     return sha256(str.encode()).hexdigest()
 
 def encrypt(inputText):
     reversed = inputText[::-1]

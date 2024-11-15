@@ -91,13 +91,30 @@ def createProject(client, projectName, projectId, description, user):
 
     return response
 
-# Function to add a user to a project
 def addUser(client, projectId, user):
+    db = client['user_management']
+    projects = db['projects']
+    projects.update_one({'projectId': projectId}, {'$addToSet': {'members' : user}})
+    
+
+# Function to add a user to a project
+def addUsertoProject(client, projectId, user):
     db = client['user_management']
 
     projects = db['projects']
+    
+    userdb = db['users']
+    
+    userdb.update_one({'username': user}, {'$addToSet': {'projects': projectId}})
 
     projects.update_one({'projectId': projectId}, {'$addToSet': {'members' : user}})
+    
+    response = {
+            "status": "success",
+            "message": "Project joined successfully"
+    }
+    
+    return response
 
 def deleteProject(client, projectId):
     db = client['user_management']

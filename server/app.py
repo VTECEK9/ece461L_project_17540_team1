@@ -5,8 +5,9 @@ from pymongo.mongo_client import MongoClient
 from flask_cors import CORS
 import os
 from usersDatabase import addUser, login_user
-from projectsDatabase import createProject
+from projectsDatabase import createProject, addUsertoProject
 from hardwareDatabase import queryHardwareSet
+from encryption import encrypt, decrypt
 
 # this is the flask app that helps us interface with the frontend and will call the appropriate backend functions
 
@@ -39,6 +40,9 @@ def login():
     data = request.get_json()
     username = data.get('username')
     password = data.get('password')
+    
+    # username = decrypt(username)
+    # password = decrypt(password)
 
     response = login_user(client, username, password)
 
@@ -76,7 +80,7 @@ def create_project():
     project_id = data.get('projectId')
     username = data.get('username')
 
-    response = createProject(client, project_name, project_description, project_id, username)
+    response = createProject(client, project_name, project_id, project_description, username)
 
     return jsonify(response)
 
@@ -92,7 +96,13 @@ def get_hw_sets():
 
     return jsonify(response)
 
-
+@app.route('/join_project', methods=['POST'])
+def join_project():
+    data = request.get_json()
+    username = data.get('username')
+    project_id = data.get('projectId')
+    response = addUsertoProject(client, project_id, username)
+    return jsonify(response)
 
 
 
@@ -101,12 +111,13 @@ def get_hw_sets():
 def get_user_projects():
     data = request.get_json()
     username = data.get('username')
+    print(f"Fetching projects for username: {username}")
 
     db = client['user_management']
     users_collection = db['users']
     projects_collection = db['projects']
 
-    # First get the user's project IDs from their document
+    # Fetch user document
     user = users_collection.find_one({'username': username})
     if not user:
         return jsonify({
@@ -115,26 +126,28 @@ def get_user_projects():
         })
 
     user_project_ids = user.get('projects', [])
+    print(f"User Project IDs: {user_project_ids}")
 
-    # Find only the projects that are in the user's projects array
-    projects = list(projects_collection.find({
+    # Fetch all matching projects
+    projects_cursor = projects_collection.find({
         'projectId': {'$in': user_project_ids}
-    }))
+    })
+    projects = list(projects_cursor)
+    print(f"Fetched Projects from Database: {projects}")
 
-    # Format projects to match what exists in MongoDB
+    # Format projects for response
     formatted_projects = [{
         'id': str(project['_id']),
-        'name': project['projectName'],
-        'description': project['projectDescription'],
-        'projectId': project['projectId'],
-        'createdBy': project['createdBy'],
-        'users': project['members'],
+        'name': project.get('projectName', 'Unnamed Project'),
+        'description': project.get('projectDescription', ''),
+        'projectId': project.get('projectId', ''),
+        'createdBy': project.get('createdBy', 'Unknown'),
+        'users': project.get('members', []),
         'authorized': True,
-        'HardwareSet_Usage' : project['HardwareSet_Usage']
+        'HardwareSet_Usage': project.get('HardwareSet_Usage', {})
     } for project in projects]
 
-    print(formatted_projects)
-
+    print(f"Formatted Projects: {formatted_projects}")
 
     return jsonify({
         'status': 'success',
