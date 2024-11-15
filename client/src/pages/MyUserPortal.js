@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../App.css';
 
 const MyUserPortal = () => {
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     const [createProject, setCreateProject] = useState(false);
     const [joinProject, setJoinProject] = useState(false);
@@ -12,12 +14,15 @@ const MyUserPortal = () => {
     // Separate state variables for each form
     const [projectName, setProjectName] = useState('');
     const [projectDescription, setProjectDescription] = useState('');
-    const [joinProjectId, setJoinProjectId] = useState('');  // For joining projects
-    const [newProjectId, setNewProjectId] = useState('');    // For creating projects
+    const [joinProjectId, setJoinProjectId] = useState(''); // For joining projects
+    const [newProjectId, setNewProjectId] = useState(''); // For creating projects
+
+    const handleLogout = () => {
+        navigate('/');
+    };
 
     const username = localStorage.getItem('username');
 
-    
     const fetchProjects = async () => {
         console.log('Fetching projects for username:', username);
 
@@ -27,7 +32,7 @@ const MyUserPortal = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ username })
+                body: JSON.stringify({ username }),
             });
 
             const data = await response.json();
@@ -42,10 +47,6 @@ const MyUserPortal = () => {
             setLoading(false);
         }
     };
-
-    
-
-   
 
     const toggleCreateProject = () => {
         setCreateProject((prevState) => !prevState); // Toggle create project form
@@ -104,10 +105,6 @@ const MyUserPortal = () => {
         }
     };
 
-    useEffect(() => {
-        fetchProjects();
-    }, []);
-
     const handleJoinProject = async (e) => {
         e.preventDefault();
 
@@ -148,6 +145,10 @@ const MyUserPortal = () => {
         }
     };
 
+    useEffect(() => {
+        fetchProjects();
+    }, []);
+
     if (loading) {
         return <div>Loading projects...</div>;
     }
@@ -155,7 +156,12 @@ const MyUserPortal = () => {
     return (
         <div className="projects-container">
             <div className="Homepage">
-                <p><Link to="/">Back to login</Link></p>
+                <p>
+                    <Link to="/">Back to login</Link>
+                </p>
+                <button className="logout" onClick={handleLogout}>
+                    Logout
+                </button>
             </div>
 
             <h1>My Projects</h1>
@@ -163,66 +169,70 @@ const MyUserPortal = () => {
             <div className="create-project">
                 <button onClick={toggleCreateProject}>Create New Project</button>
                 <button onClick={toggleJoinProject}>Join a Project</button>
+            </div>
 
-                {/* Join Project Form */}
-                {joinProject && (
-                    <form onSubmit={handleJoinProject}>
-                        <div className="join-project">
-                            <label htmlFor="join-projectid">Project ID</label>
+            {/* Join Project Form */}
+            {joinProject && (
+                <form onSubmit={handleJoinProject}>
+                    <div className="join-project">
+                        <label htmlFor="join-projectid">Project ID</label>
+                        <input
+                            type="text"
+                            id="join-projectid"
+                            value={joinProjectId}
+                            onChange={(e) => setJoinProjectId(e.target.value)} // Update state on input change
+                            required
+                        />
+                    </div>
+                    <button type="submit">Join This Project</button>
+                </form>
+            )}
+
+            {/* Create Project Form */}
+            {createProject && (
+                <div className="project-details">
+                    <h2>Project Details</h2>
+                    <form onSubmit={handleSaveProject}>
+                        <div className="new-project">
+                            <label htmlFor="projectname">Project Name</label>
                             <input
                                 type="text"
-                                id="join-projectid"
-                                value={joinProjectId}
-                                onChange={(e) => setJoinProjectId(e.target.value)} // Update state on input change
+                                id="projectname"
+                                value={projectName}
+                                onChange={(e) => setProjectName(e.target.value)}
                                 required
                             />
                         </div>
-                        <button type="submit">Join This Project</button>
+
+                        <div className="new-project">
+                            <label htmlFor="projectdescription">Project Description</label>
+                            <input
+                                type="text"
+                                id="projectdescription"
+                                value={projectDescription}
+                                onChange={(e) => setProjectDescription(e.target.value)}
+                                required
+                            />
+                        </div>
+
+                        <div className="new-project">
+                            <label htmlFor="new-projectid">Project ID</label>
+                            <input
+                                type="text"
+                                id="new-projectid"
+                                value={newProjectId}
+                                onChange={(e) => setNewProjectId(e.target.value)}
+                                required
+                            />
+                        </div>
+
+                        <button type="submit">Save New Project</button>
                     </form>
-                )}
+                </div>
+            )}
 
-                {/* Create Project Form */}
-                {createProject && (
-                    <div className="project-details">
-                        <h2>Project Details</h2>
-                        <form onSubmit={handleSaveProject}>
-                            <div className="new-project">
-                                <label htmlFor="projectname">Project Name</label>
-                                <input
-                                    type="text"
-                                    id="projectname"
-                                    value={projectName}
-                                    onChange={(e) => setProjectName(e.target.value)}
-                                    required
-                                />
-                            </div>
-
-                            <div className="new-project">
-                                <label htmlFor="projectdescription">Project Description</label>
-                                <input
-                                    type="text"
-                                    id="projectdescription"
-                                    value={projectDescription}
-                                    onChange={(e) => setProjectDescription(e.target.value)}
-                                    required
-                                />
-                            </div>
-
-                            <div className="new-project">
-                                <label htmlFor="new-projectid">Project ID</label>
-                                <input
-                                    type="text"
-                                    id="new-projectid"
-                                    value={newProjectId}
-                                    onChange={(e) => setNewProjectId(e.target.value)}
-                                    required
-                                />
-                            </div>
-
-                            <button type="submit">Save New Project</button>
-                        </form>
-                    </div>
-                )}
+            <div className="capacityamount">
+                <h4>Global Capacity Amount for HWSets: 100</h4>
             </div>
 
             {projects.length === 0 ? (
@@ -245,8 +255,8 @@ const MyUserPortal = () => {
 };
 
 const Project = ({ project, hwsets }) => {
-    const [request1, setRequest1] = React.useState('');
-    const [request2, setRequest2] = React.useState('');
+    const [request1, setRequest1] = useState('');
+    const [request2, setRequest2] = useState('');
 
     const hwset1Available = hwsets?.hwset1available ?? 100;
     const hwset2Available = hwsets?.hwset2available ?? 100;

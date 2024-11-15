@@ -15,6 +15,17 @@ button{
     margin-bottom: 5px;
 }
 
+.logout{
+    top: 30px;
+    position: absolute;
+    right: 40px;
+    padding: 10px;
+    width: 10%;
+    background-color: #5cacba;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
 button:hover{
     background-color: #315a61;
 }
