@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../App.css';
 
 const MyUserPortal = () => {
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
+
 
     const [createProject, setCreateProject] = useState(false);
 
@@ -14,6 +17,10 @@ const MyUserPortal = () => {
     const [joinProjectId, setJoinProjectId] = useState('');  // For joining projects
     const [newProjectId, setNewProjectId] = useState('');    // For creating projects
 
+
+    const handleLogout = () => {
+        navigate('/');
+    }
 
 
 
@@ -130,7 +137,8 @@ const MyUserPortal = () => {
     return (
         <div className="projects-container">
             <div className = "Homepage">
-                <p><Link to = "/">Back to login</Link></p>
+    
+                <button className="logout" onClick={handleLogout}>Logout</button>
             </div>
 
             <h1>My Projects</h1>
