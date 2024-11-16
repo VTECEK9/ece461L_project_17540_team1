@@ -1,0 +1,243 @@
+body {
+  height: 100%;
+  display:flex;
+}
+
+
+button{
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 95%;
+  padding: 10px;
+  background-color: #5cacba;
+  font-size: 16px;
+  transition: background-color 0.3s;
+  margin-bottom: 5px;
+}
+
+.logout{
+  top: 30px;
+  position: absolute;
+  right: 40px;
+  padding: 10px;
+  width: 10%;
+  background-color: #5cacba;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+button:hover{
+  background-color: #315a61;
+}
+
+.user-buttons{
+  align-items: right;
+  margin-right: 5px;
+}
+
+.hwsets-fix{
+  display: flex;
+  flex-direction: column;
+}
+
+.join-project h2{
+  color: white;
+}
+
+.join-project input{
+  border: none;
+  border-radius: 5px;
+  width: 90%;
+  padding: 8px;
+  margin-bottom: 10px;
+  margin-right: 50px;
+  outline: none;
+}
+
+.join-project label{
+  color: white;
+
+}
+
+.resource-management {
+  background: linear-gradient(135deg, #5cacba, #5c5492);
+  width: 300%;
+  max-width: 400px;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  color: white;
+
+}
+
+.request-box,
+.capacity-box,
+.available-box{
+  margin-bottom: 10px;
+}
+
+input.trial{
+  border: 1px solid #ccc;
+  margin-left: 20px;
+  border-radius: 5px;
+}
+
+.project-box{
+  background: linear-gradient(135deg, #5cacba, #5c5492);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  color: white;
+  border: 1px solid #ccc;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin: 10px 0;
+  display: flex;
+  overflow-y: auto;
+  
+}
+
+.project-info h2{
+  color:rgb(141, 255, 255);
+}
+
+.project-info{
+  margin-left: 10px;
+}
+
+.hw-sets{
+  flex: 1;
+  margin-left: 30px;
+}
+
+.check-in{
+  flex: 1;
+  display: flex;
+  align-items: center;
+  margin-right: 30px;
+}
+
+.hwsets-boxes {
+  flex: 1;
+  margin-left: 40px;
+  margin-right: 20px;
+}
+
+.hwsets-boxes h3{
+  color:#d5d0f9;
+}
+
+.buttons{
+  flex:1;
+  display: flex;
+  align-items: center;
+  margin-right: 30px;
+  margin-left:30px;
+
+  border-radius: 5px;
+
+}
+
+.request-amount{
+  flex:1;
+  margin-left: 20px; 
+  margin-right: 20px;
+}
+
+.request-amount h3 {
+  color: #cfcdde;
+  text-align: center;
+}
+
+
+label{
+  display:block;
+  margin-bottom: 10px;
+
+}
+
+
+.create-project{
+  background: linear-gradient(135deg, #90cbd5, #afdfc5);
+  width: 100%;
+  
+  max-width: 400px;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  color: white;
+  margin-bottom: 20px;
+
+}
+
+.project-details h2 {
+  text-align: center;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.new-project{
+  margin-bottom: 15px;
+}
+
+.new-project label{
+  color: white;
+  margin-bottom: 5px;
+  display: block;
+}
+
+
+.new-project input{
+  border: none;
+  border-radius: 5px;
+  width: 90%;
+  padding: 8px;
+  outline: none;
+  align-items: center;
+}
+
+.new-project input:focus{
+  border: 2px solid #ffffff;
+}
+
+
+.account-creation h2{
+  color:white;
+}
+
+.account-creation {
+  background: linear-gradient(135deg, #90cbd5, #afdfc5);
+  width: 100%;
+  max-width: 400px;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  color: white;
+}
+
+
+.new-account{
+  margin-bottom: 15px;
+}
+
+.new-account label{
+  color: white;
+  margin-bottom: 5px;
+  display: block;
+}
+
+
+.new-account input{
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  padding: 8px;
+  outline: none;
+}
+
+.new-account input:focus{
+  border: 2px solid #ffffff;
+}

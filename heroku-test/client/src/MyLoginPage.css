@@ -1,0 +1,84 @@
+/* css for login page */
+
+body{
+    margin: 0;
+    font-family: Arial, sans-serif;
+    justify-content:center;
+    display: flex;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(to right, #837da8, #91bac1);
+}
+
+.login-container {
+    background: linear-gradient(135deg, #5cacba, #5c5492);
+    width: 100%;
+    max-width: 400px;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    color: white;
+    margin-top: 50px;
+}
+
+
+.login-section h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.login-credentials{
+    margin-bottom: 15px;
+}
+
+.login-credentials label{
+    margin-bottom: 5px;
+    display: block;
+}
+
+
+.login-credentials input{
+    border: none;
+    border-radius: 5px;
+    width: 90%;
+    padding: 8px;
+    outline: none;
+}
+
+.login-credentials input:focus{
+    border: 2px solid #ffffff;
+}
+
+button{
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    padding: 10px;
+    background-color: #5cacba;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+button:hover{
+    background-color: #315a61;
+}
+
+.bottom{
+    text-align: center;
+    margin-top: 15px;
+}
+
+.bottom a{
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+a:link{
+    color: white;
+}
+
+a:visited {
+    color: white
+}
